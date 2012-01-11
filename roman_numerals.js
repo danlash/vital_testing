@@ -9,8 +9,6 @@ function RomanNumeralCalculator(){
       return romanToArabic(number)
   }
 
-  var romans = { 'I':1, 'V':5, 'X': 10, 'L':50, 'C':100, 'D':500, 'M':1000 };
-
   function arabicToRoman(number){
     switch(number){
       case 1: return 'I';
@@ -24,13 +22,21 @@ function RomanNumeralCalculator(){
   }
 
   function romanToArabic(number){
+    var romans = {  'M':1000, 'CM':900, 'D':500, 'CD':400, 'C':100, 'XC':90, 'L':50, 'XL':40, 'X':10, 'IX':9, 'V':5, 'IV':4, 'I':1 };
     var total = 0
-    for(var i = 0; i < number.length; i++){
-      total += romans[number.charAt(i)];
-    }
+    _.each(romans, function(arabic, roman){
+      while(number.indexOf(roman) === 0) {
+        total += arabic;
+        number = number.slice(roman.length)
+      }
+    })
     return total
   }
 }
+
+module.exports = RomanNumeralCalculator
+
+var describe = describe || function(){}
 
 describe('number to roman conversion', function(){
   var calc;
@@ -56,6 +62,16 @@ describe('number to roman conversion', function(){
   describe('roman addition', function(){
     it('II should be 2', function(){
       calc.calculate('II').should.equal(2);
+    })
+
+    it('VI should be 6', function(){
+      calc.calculate('VI').should.equal(6);
+    })
+  })
+
+  describe('roman subtraction', function(){
+    it('IV should be 4', function(){
+      calc.calculate('IV').should.equal(4)
     })
   })
 })
