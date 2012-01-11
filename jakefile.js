@@ -6,7 +6,7 @@ task('default', ['specs'])
 
 desc('Runs the specs')
 task('specs', function(){
-  exec('mocha -R list roman_numerals.js', function(err, stdout, stderr) {
+  exec('mocha -R list roman_numerals_specs.js', function(err, stdout, stderr) {
       util.puts(stdout) 
       util.puts(stderr) 
 
