@@ -7,30 +7,28 @@ function RomanNumeralCalculator(){
       return arabicToRoman(number)
     else
       return romanToArabic(number)
+  }
 
-    function arabicToRoman(number){
-      switch(number){
-        case 1: return 'I';
-        case 5: return 'V';
-        case 10: return 'X';
-        case 50: return 'L';
-        case 100: return 'C';
-        case 500: return 'D';
-        case 1000: return 'M';
-      }
-    }
+  var romans = { 'I':1, 'V':5, 'X': 10, 'L':50, 'C':100, 'D':500, 'M':1000 };
 
-    function romanToArabic(number){
-      switch(number){
-        case 'I': return 1;
-        case 'V': return 5;
-        case 'X': return 10;
-        case 'L': return 50;
-        case 'C': return 100;
-        case 'D': return 500;
-        case 'M': return 1000;
-      } 
+  function arabicToRoman(number){
+    switch(number){
+      case 1: return 'I';
+      case 5: return 'V';
+      case 10: return 'X';
+      case 50: return 'L';
+      case 100: return 'C';
+      case 500: return 'D';
+      case 1000: return 'M';
     }
+  }
+
+  function romanToArabic(number){
+    var total = 0
+    for(var i = 0; i < number.length; i++){
+      total += romans[number.charAt(i)];
+    }
+    return total
   }
 }
 
@@ -42,7 +40,7 @@ describe('number to roman conversion', function(){
 
   describe('single digit', function(){
 
-    romans = { 'I':1, 'V':5, 'X': 10, 'L':50, 'C':100, 'D':500, 'M':1000 };
+    var romans = { 'I':1, 'V':5, 'X': 10, 'L':50, 'C':100, 'D':500, 'M':1000 };
 
     _.each(romans, function(arabic, roman){
         it(roman + ' should be ' + arabic, function(){
@@ -53,6 +51,11 @@ describe('number to roman conversion', function(){
           calc.calculate(roman).should.equal(arabic)
         })
     })
+  })
 
+  describe('roman addition', function(){
+    it('II should be 2', function(){
+      calc.calculate('II').should.equal(2);
+    })
   })
 })
