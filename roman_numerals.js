@@ -1,10 +1,13 @@
 var should = require('should')
+  , _ = require('underscore')
 
 function RomanNumeralCalculator(){
   this.calculate = function(number){
     switch(number){
       case 1:
         return 'I';
+      case 'I':
+        return 1;
       case 5:
         return 'V';
       case 10:
@@ -22,38 +25,24 @@ function RomanNumeralCalculator(){
 }
 
 describe('number to roman conversion', function(){
-  var roman;
+  var calc;
   beforeEach(function(){
-    roman = new RomanNumeralCalculator();
+    calc = new RomanNumeralCalculator();
   })
 
   describe('single digit', function(){
-    it('1 should I', function(){
-      roman.calculate(1).should.equal('I');
+
+    romans = { 'I':1, 'V':5, 'X': 10, 'L':50, 'C':100, 'D':500, 'M':1000 };
+
+    _.each(romans, function(arabic, roman){
+        it(roman + ' should be ' + arabic, function(){
+          calc.calculate(arabic).should.equal(roman)
+        })
     })
 
-    it('5 should be V', function(){
-      roman.calculate(5).should.equal('V');
+    it('I should be 1', function(){
+      calc.calculate('I').should.equal(1);
     })
 
-    it('10 should be X', function(){
-      roman.calculate(10).should.equal('X');
-    })
-
-    it('50 should be L', function(){
-      roman.calculate(50).should.equal('L');
-    })
-
-    it('100 should be C', function(){
-      roman.calculate(100).should.equal('C');
-    })
-
-    it('500 should be D', function(){
-      roman.calculate(500).should.equal('D');
-    })
-
-    it('1000 should be M', function(){
-      roman.calculate(1000).should.equal('M');
-    })
   })
 })
